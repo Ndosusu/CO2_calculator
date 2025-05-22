@@ -18,6 +18,7 @@ document.getElementById('carbon-form').addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const data = {
+    username: document.getElementById('username').value, // Ajout du nom
     transport_km: parseFloat(e.target.transport_km.value),
     redMeat_per_week: parseFloat(e.target.redMeat_per_week.value),
     fishMeat_per_week: parseFloat(e.target.fishMeat_per_week.value),

@@ -88,7 +88,6 @@ module.exports = function calculate(userData) {
       throw new Error("Type de chauffage non supporté.");
     }
   }
-  // Si chauffage_type === 'electricite', déjà inclus dans 'electricity'
 
   const total = transport + redMeat + fishMeat + whiteMeat + vegeMeat + veganMeat + electricity + eau + chauffage;
 
