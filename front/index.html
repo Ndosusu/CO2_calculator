@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Analyseur d'empreinte carbone</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Calculateur d'empreinte carbone</h1>
+
+  <form id="carbon-form">
+
+    <div class="section-vehicule">
+      <h2>Véhicule</h2>
+      <label>Type de Carburant :
+        <select name="typeCarburant" required>
+          <option value="essence">Essence</option>
+          <option value="diesel">Diesel</option>
+          <option value="gpl">GPL</option>
+          <option value="electrique">Electrique</option>
+        </select>
+      </label>
+
+      <label>Consommation du véhicule (L/100km ou kWh/100km) :
+        <input type="number" name="consommation" step="0.1" required>
+      </label>
+
+      <label>Km en voiture par semaine :
+        <input type="number" name="transport_km" required>
+      </label>
+    </div>
+
+    <div class="section-alimentation">
+      <h2>Alimentation</h2>
+      <label>Repas avec viande rouge par semaine :
+        <input type="number" name="redMeat_per_week" required>
+      </label>
+
+      <label>Repas avec viande blanche par semaine :
+        <input type="number" name="whiteMeat_per_week" required>
+      </label>
+
+      <label>Repas avec poisson par semaine :
+        <input type="number" name="fishMeat_per_week" required>
+      </label>
+
+      <label>Repas végétariens par semaine :
+        <input type="number" name="vegeMeat_per_week" required>
+      </label>
+
+      <label>Repas végétaliens par semaine :
+        <input type="number" name="veganMeat_per_week" required>
+      </label>
+
+      <div id="repas-restants" style="font-weight:bold; margin-bottom:1rem;">
+        Repas restants : 14
+      </div>
+    </div>
+
+    <div class="section-eau">
+      <h2>Eau</h2>
+      <label>Buvez-vous de l'eau&nbsp;:
+        <input type="radio" name="eau_type" value="bouteille" required> en bouteille
+        <input type="radio" name="eau_type" value="robinet" required> du robinet
+      </label>
+    </div>
+
+    <div class="section-energie">
+      <h2>Énergie</h2>
+      <label>Consommation d’électricité (kWh/mois) :
+        <input type="number" name="electricity_kwh" required>
+      </label>
+    </div>
+
+    <button type="submit">Calculer</button>
+  </form>
+
+  <div id="results" style="display: none;">
+    <h2>Résultat</h2>
+    <p id="total"></p>
+    <ul id="details"></ul>
+    <canvas id="carbonPie" width="350" height="350" style="margin:2rem auto;display:block;"></canvas>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
