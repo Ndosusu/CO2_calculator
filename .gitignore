@@ -1,0 +1,52 @@
+package-lock.json
+package.json
+
+# Node.js (backend et frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build
+dist/
+build/
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+debug.log
+
+# Misc
+*.tgz
+*.swp
+
+# Dependency directories (si jamais tu as un monorepo)
+carbon-analyzer-frontend/node_modules/
+carbon-analyzer-backend/node_modules/
+
+# Coverage
+coverage/
+
+# Test outputs
+jest-test-results.json
+
+# Parcel
+.cache/
+.parcel-cache/
+
+# VSCode settings (facultatif)
+*.code-workspace
