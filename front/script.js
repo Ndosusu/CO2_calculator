@@ -147,3 +147,20 @@ chauffageTypeSelect.addEventListener('change', function() {
     `;
   }
 });
+
+document.getElementById('typeCarburant').addEventListener('change', function() {
+  const vehiculeDetails = document.getElementById('vehicule-details');
+  if (this.value === 'aucune') {
+    vehiculeDetails.style.display = 'none';
+    // Désactive les champs pour éviter les erreurs de validation
+    vehiculeDetails.querySelectorAll('input').forEach(input => {
+      input.required = false;
+      input.value = '';
+    });
+  } else {
+    vehiculeDetails.style.display = '';
+    vehiculeDetails.querySelectorAll('input').forEach(input => {
+      input.required = true;
+    });
+  }
+});

@@ -44,12 +44,12 @@ module.exports = function calculate(userData) {
 
   // Calcul transport selon type de carburant
   let transport = 0;
-  if (typeCarburant && consommation) {
+  if (typeCarburant && typeCarburant !== "aucune" && consommation) {
     const facteursEmission = {
       essence: 2.31,       // kg CO2 / litre
       diesel: 2.61,        // kg CO2 / litre
       gpl: 1.65,           // kg CO2 / litre
-      electrique: kwh     // kg CO2 / kWh (moyenne en France)
+      electrique: kwh      // kg CO2 / kWh (moyenne en France)
     };
     const facteur = facteursEmission[typeCarburant];
     if (facteur) {

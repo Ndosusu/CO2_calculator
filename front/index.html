@@ -13,22 +13,25 @@
 
     <div class="section-vehicule">
       <h2>Véhicule</h2>
-      <label>Type de Carburant :
-        <select name="typeCarburant" required>
+      <label>Type de Véhicule :
+        <select name="typeCarburant" id="typeCarburant" required>
           <option value="essence">Essence</option>
           <option value="diesel">Diesel</option>
           <option value="gpl">GPL</option>
           <option value="electrique">Electrique</option>
+          <option value="aucune">Aucune (pas de voiture)</option>
         </select>
       </label>
 
-      <label>Consommation du véhicule (L/100km ou kWh/100km) :
-        <input type="number" name="consommation" step="0.1" required>
-      </label>
+      <div id="vehicule-details">
+        <label>Consommation du véhicule (L/100km ou kWh/100km) :
+          <input type="number" name="consommation" step="0.1" required>
+        </label>
 
-      <label>Km en voiture par semaine :
-        <input type="number" name="transport_km" required>
-      </label>
+        <label>Km en voiture par semaine :
+          <input type="number" name="transport_km" required>
+        </label>
+      </div>
     </div>
 
     <div class="section-alimentation">
