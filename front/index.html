@@ -71,6 +71,25 @@
       <label>Consommation d’électricité (kWh/mois) :
         <input type="number" name="electricity_kwh" required>
       </label>
+
+      <label>Vous êtes chauffé par :
+        <select name="chauffage_type" id="chauffage_type" required>
+          <option value="bois">Bois</option>
+          <option value="electricite">Électricité</option>
+          <option value="fioul">Fioul</option>
+          <option value="gaz">Gaz</option>
+          <option value="reseau">Réseau de chaleur</option>
+          <option value="granule">Granulé</option>
+          <option value="pompe">Pompe à chaleur</option>
+        </select>
+      </label>
+
+      <div id="chauffage-inputs">
+        <!-- Par défaut, champ pour l'électricité -->
+        <label id="label-electricite">Consommation d’électricité pour le chauffage (kWh/mois) :
+          <input type="number" name="chauffage_conso" id="chauffage_conso" required>
+        </label>
+      </div>
     </div>
 
     <button type="submit">Calculer</button>
@@ -80,6 +99,7 @@
     <h2>Résultat</h2>
     <p id="total"></p>
     <ul id="details"></ul>
+    <p id="conclusion"></p>
     <canvas id="carbonPie" width="350" height="350" style="margin:2rem auto;display:block;"></canvas>
   </div>
 

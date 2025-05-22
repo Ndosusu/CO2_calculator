@@ -1,6 +1,19 @@
 // script.js
 let carbonChart; // Pour garder une référence au graphique
 
+// Ajoutez ce mapping en haut du fichier ou avant la boucle d'affichage des résultats
+const labelsMap = {
+  transport: "Transport",
+  redMeat: "Repas viande rouge",
+  fishMeat: "Repas poisson",
+  whiteMeat: "Repas viande blanche",
+  vegeMeat: "Repas végétarien",
+  veganMeat: "Repas vegan",
+  electricity: "Électricité",
+  eau: "Eau",
+  chauffage: "Chauffage"
+};
+
 document.getElementById('carbon-form').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -14,7 +27,12 @@ document.getElementById('carbon-form').addEventListener('submit', async (e) => {
     eau_type: e.target.eau_type.value,
     electricity_kwh: parseFloat(e.target.electricity_kwh.value),
     typeCarburant: e.target.typeCarburant.value,
-    consommation: parseFloat(e.target.consommation.value)
+    consommation: parseFloat(e.target.consommation.value),
+    chauffage_type: document.getElementById('chauffage_type').value,
+    chauffage_conso: (() => {
+      const input = document.getElementById('chauffage_conso');
+      return input ? parseFloat(input.value) : null;
+    })()
   };
 
   const totalRepas =
@@ -38,15 +56,22 @@ document.getElementById('carbon-form').addEventListener('submit', async (e) => {
 
     const result = await response.json();
 
-    document.getElementById('total').textContent = `Votre empreinte carbonne hebdomadaire est de ${result.total.toFixed(2)} kgCO₂e`;
+    document.getElementById('total').textContent = `Votre empreinte carbonne hebdomadaire est de ... ${result.total.toFixed(2)} kgCO₂e`;
     const detailsList = document.getElementById('details');
+    document.getElementById('conclusion').textContent = `... mais ce calculateur ne prend pas en compte l'empreinte de votre logement, de vos appareils électroniques, de vos vêtements, de vos voyages en avion, etc.`;
     detailsList.innerHTML = '';
 
     for (const [key, value] of Object.entries(result.details)) {
       const li = document.createElement('li');
-      li.textContent = `${key} : ${value.toFixed(2)} kgCO₂e`;
+      // Utilisez le mapping pour afficher le label lisible
+      li.textContent = `${labelsMap[key] || key} : ${value.toFixed(2)} kgCO₂e`;
       detailsList.appendChild(li);
     }
+
+    document.getElementById('results').style.display = 'block'; // Affiche d'abord la div des résultats
+
+    // Scroll vers la section résultat
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
 
     // Affichage du graphique circulaire
     const ctx = document.getElementById('carbonPie').getContext('2d');
@@ -72,8 +97,6 @@ document.getElementById('carbon-form').addEventListener('submit', async (e) => {
         }
       }
     });
-
-    document.getElementById('results').style.display = 'block';
   } catch (error) {
     console.error('Erreur :', error);
     alert("Une erreur est survenue lors du calcul.");
@@ -98,3 +121,29 @@ function updateRepasRestants() {
 
 // Initialisation au chargement
 updateRepasRestants();
+
+const chauffageTypeSelect = document.getElementById('chauffage_type');
+const chauffageInputsDiv = document.getElementById('chauffage-inputs');
+
+const labels = {
+  bois: 'Consommation de bois (stère/année) :',
+  electricite: 'déjà prise en compte',
+  fioul: 'Consommation de fioul (litres/mois) :',
+  gaz: 'Consommation de gaz (kWh/mois) :',
+  reseau: 'Consommation réseau de chaleur (kWh/mois) :',
+  granule: 'Consommation de granulé (kg/mois) :',
+  pompe: 'Consommation pompe à chaleur (kWh/mois) :'
+};
+
+chauffageTypeSelect.addEventListener('change', function() {
+  const type = chauffageTypeSelect.value;
+  if (type === 'electricite') {
+    chauffageInputsDiv.innerHTML = `<input type="hidden" name="chauffage_conso" id="chauffage_conso" value="0"> <span>déjà prise en compte</span>`;
+  } else {
+    chauffageInputsDiv.innerHTML = `
+      <label>${labels[type]}
+        <input type="number" name="chauffage_conso" id="chauffage_conso" required>
+      </label>
+    `;
+  }
+});

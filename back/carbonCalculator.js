@@ -11,6 +11,8 @@ module.exports = function calculate(userData) {
     typeCarburant,
     consommation,
     eau_type,
+    chauffage_type,
+    chauffage_conso
   } = userData;
 
   const redMeatMeal = 7.26; // cO2 en kg par kg de viande rouge
@@ -19,7 +21,7 @@ module.exports = function calculate(userData) {
   const vegeMeal = 0.51;
   const veganmeal = 0.39;
 
-  const kwh = 0.006; //cO2 en gramme par kWh
+  const kwh = 0.06; //cO2 en kilo par kWh
 
   const redMeat = redMeat_per_week * (redMeatMeal); 
   const fishMeat = fishMeat_per_week * (fishMeatMeal); 
@@ -67,10 +69,31 @@ module.exports = function calculate(userData) {
     eau = 0.01; // 0,1g = 0.0001kg CO2/L
   }
 
-  const total = transport + redMeat + fishMeat + whiteMeat + vegeMeat + veganMeat + electricity + eau;
+  // Calcul de l'empreinte liée au chauffage
+  let chauffage = 0;
+  if (chauffage_type && chauffage_conso && chauffage_type !== 'electricite') {
+    // Facteurs d'émission moyens (kgCO2e/unité)
+    const facteursChauffage = {
+      bois: 200/12,        // stère/mois
+      fioul: 2.7,       // kgCO2e/litre
+      gaz: 0.227,        // kgCO2e/kWh
+      reseau: 0.18,      // kgCO2e/kWh (valeur indicative)
+      granule: 0.01,     // kgCO2e/kg
+      pompe: 0.06        // kgCO2e/kWh (pompe à chaleur)
+    };
+    const facteur = facteursChauffage[chauffage_type];
+    if (facteur) {
+      chauffage = chauffage_conso * facteur / 4.33; // Conversion mensuel -> hebdo
+    } else {
+      throw new Error("Type de chauffage non supporté.");
+    }
+  }
+  // Si chauffage_type === 'electricite', déjà inclus dans 'electricity'
+
+  const total = transport + redMeat + fishMeat + whiteMeat + vegeMeat + veganMeat + electricity + eau + chauffage;
 
   return {
     total,
-    details: { transport, redMeat, fishMeat, whiteMeat, vegeMeat, veganMeat, electricity, eau }
+    details: { transport, redMeat, fishMeat, whiteMeat, vegeMeat, veganMeat, electricity, eau, chauffage }
   };
 };
