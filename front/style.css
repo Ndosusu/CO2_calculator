@@ -146,3 +146,10 @@ button[type="submit"]:hover {
   content: "🌱";
   font-size: 1.1em;
 }
+#details li.alimentation-toggle:hover {
+  background: #c8e6c9;
+}
+#details ul {
+  margin: 0;
+  padding: 0;
+}

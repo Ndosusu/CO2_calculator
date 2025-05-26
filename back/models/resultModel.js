@@ -16,12 +16,12 @@ exports.saveUserIfNotExists = (name, callback) => {
 exports.saveResult = (result, callback) => {
   const {
     user_id, total, transport, redMeat, fishMeat, whiteMeat,
-    vegeMeat, veganMeat, electricity, eau, chauffage
+    vegeMeat, veganMeat, alimentation, electricity, eau, chauffage
   } = result;
   db.run(
-    `INSERT INTO results (user_id, total, transport, redMeat, fishMeat, whiteMeat, vegeMeat, veganMeat, electricity, eau, chauffage)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [user_id, total, transport, redMeat, fishMeat, whiteMeat, vegeMeat, veganMeat, electricity, eau, chauffage],
+    `INSERT INTO results (user_id, total, transport, redMeat, fishMeat, whiteMeat, vegeMeat, veganMeat, alimentation, electricity, eau, chauffage)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [user_id, total, transport, redMeat, fishMeat, whiteMeat, vegeMeat, veganMeat, alimentation, electricity, eau, chauffage],
     function (err) {
       callback(err, this?.lastID);
     }
